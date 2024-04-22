@@ -1,10 +1,14 @@
 package Main;
 
+import work.Registration;
+
 public class Exmain {
 	public static void main(String[] args) {
 		
 		System.out.println("---受験結果管理プログラム---");
+		Registration rgstr=new Registration();
 		
+		rgstr.inputName();
 		
 	}
 }

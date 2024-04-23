@@ -25,13 +25,11 @@ public class Registration {
 		
 		//ここに受験番号生成機能
 		AccessDB accessdb=new AccessDB();
-		//DB接続
-		accessdb.connectDB();
+		
 		//ユーザーデータ登録
 		int userId=accessdb.setUserNameToGenId(_name);
 		System.out.println(_name+"さんのIDは"+userId+"です。");
 		
-		System.out.println("");
 		
 		
 		scanner.close();

@@ -1,5 +1,6 @@
 package Main;
 
+import accessDB.AccessDB;
 import work.Registration;
 
 public class Exmain {
@@ -8,7 +9,11 @@ public class Exmain {
 		System.out.println("---受験結果管理プログラム---");
 		Registration rgstr=new Registration();
 		
-		rgstr.inputName();
+		//rgstr.inputName();
+		
+		AccessDB accessdb = new AccessDB();
+		
+		accessdb.connectDB();
 		
 	}
 }

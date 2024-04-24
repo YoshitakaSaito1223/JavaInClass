@@ -159,19 +159,87 @@ public class AccessDB {
 
 	}
 
-	//名前とIDを入力すると試験結果を表示
-	public String getResultByNameAndId(String _userName, int _id) {
+	/**
+	 * 受験者IDと教科IDを入力すると試験結果を表示
+	 * @param _user_id
+	 * @param _sub_id
+	 * @return result_point
+	 */
+	public int getResultByUserIdAndSubId(int _user_id, int _sub_id) {
+		int result_point=0;
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-		return "未実装";
+			stmt = con.prepareStatement("SELECT * FROM results WHERE sub_id=" + _sub_id+" AND examinee_id="+ _user_id);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				result_point = rs.getInt("result_point");
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+		return result_point;
+
 	}
 
-	//教科名を入れると対応する数字を出力
-	public int getSubjectNumBySub_name(String _subName) {
+	/**
+	 * 教科IDを入れると対応する教科名を出力
+	 * @param _sub_id
+	 * @return sub_name
+	 */
+	public String getSubjectNameBySub_Id(int _sub_id) {
+		String sub_name = "なし";
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-		return 0;
+			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_id=" + _sub_id);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				sub_name = rs.getString("sub_name");
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+		return sub_name;
 	}
 
-	//教科一覧をIDとともに出力
+	/**
+	 * 教科一覧をIDとともに出力
+	 */
 	public void getAllSubjectNameAndId() {
 		try {
 			// JDBCドライバのロード

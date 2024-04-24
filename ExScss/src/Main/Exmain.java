@@ -1,20 +1,54 @@
 package Main;
 
+import java.util.Scanner;
+
 import work.Registration;
 
 public class Exmain {
 	public static void main(String[] args) {
-		
+
+		//explain
 		System.out.println("---受験結果管理プログラム---");
-		Registration rgstr=new Registration();
+		System.out.println("\s使用したい機能の番号を以下から選んでください。\n"
+				+ "1.受験登録機能 : 氏名を入力すると受験番号を発行します。\n"
+				+ "2.テスト結果登録機能 ： 名前、もしくは受験番号を入力すると試験結果を出力します。\n"
+				+ "3.受験結果確認機能 : 名前、もしくは受験番号を入力すると、合否が出力されます。\n");
+
+		//入力受付
+		Scanner scanner = new Scanner(System.in);
+
+		Registration rgstr = new Registration();
+		try {
+			int pgNum = scanner.nextInt();
+			
+			//機能判定
+			switch (pgNum) {
+			case 1:
+				rgstr.inputName();
+				break;
+			case 2:
+				System.out.println("未実装です。");
+				break;
+			case 3:
+				System.out.println("未実装です。");
+				break;
+			default:
+				System.out.println("不正な入力です。機能に対応する番号を入力してください。");
+				break;
+			}
+
+		} catch (Exception e) {
+			System.out.println("不正な入力です。対応する数字を入力してください。");
+		}
 		
-		rgstr.inputName();
-		
+		//Scanner close
+		scanner.close();
+
 		//DB接続チェック用
-//		AccessDB accessdb = new AccessDB();
-//		
-//		accessdb.connectDB();
-		
+		//		AccessDB accessdb = new AccessDB();
+		//		
+		//		accessdb.connectDB();
+
 	}
 }
 //EX1  : 試験結果管理プログラムを拡張して、以下のようなシステムを構築してみてください。

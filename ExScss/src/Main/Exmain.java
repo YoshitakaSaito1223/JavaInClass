@@ -2,6 +2,7 @@ package Main;
 
 import java.util.Scanner;
 
+import accessDB.AccessDB;
 import work.Registration;
 
 public class Exmain {
@@ -17,10 +18,15 @@ public class Exmain {
 		//入力受付
 		Scanner scanner = new Scanner(System.in);
 
+		//DB接続チェック用
+		AccessDB accessdb = new AccessDB();
+
+//		accessdb.connectDB();
+
 		Registration rgstr = new Registration();
 		try {
 			int pgNum = scanner.nextInt();
-			
+
 			//機能判定
 			switch (pgNum) {
 			case 1:
@@ -40,14 +46,9 @@ public class Exmain {
 		} catch (Exception e) {
 			System.out.println("不正な入力です。対応する数字を入力してください。");
 		}
-		
+
 		//Scanner close
 		scanner.close();
-
-		//DB接続チェック用
-		//		AccessDB accessdb = new AccessDB();
-		//		
-		//		accessdb.connectDB();
 
 	}
 }

@@ -17,8 +17,7 @@ public class AccessDB {
 	final String CONNECTION = "jdbc:mysql://localhost:3306/java_ex_db?serverTimezone=Asia/Tokyo";
 	final String USER = "root";
 	final String PASSWORD = "password1223";
-	
-	
+
 	/**
 	 * DB接続テスト用クラス
 	 */
@@ -65,7 +64,7 @@ public class AccessDB {
 	 */
 	public int setUserNameToGenId(String _userName) {
 		String table = "examinee";
-		int genId = 0,rowAffected;
+		int genId = 0, rowAffected;
 
 		try {
 			// JDBCドライバのロード
@@ -90,8 +89,8 @@ public class AccessDB {
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//error原因の調査用コマンド
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getCause());
+			//			System.out.println(e.getMessage());
+			//			System.out.println(e.getCause());
 		} finally {
 			try {
 				if (con != null) {
@@ -111,8 +110,8 @@ public class AccessDB {
 	 * @return result　//試験結果
 	 */
 	public int[] getIdDataByName(String _userName) {
-		String table = "examinee" ;
-		int i=0,j=0;
+		String table = "examinee";
+		int i = 0, j = 0;
 		//int[] result=new int[20];
 
 		try {
@@ -121,31 +120,31 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// ひとつ前の番号取得
-			stmt = con.prepareStatement("SELECT id FROM " + table+" WHERE name="+_userName);
+			stmt = con.prepareStatement("SELECT id FROM " + table + " WHERE name=" + _userName);
 			// 実行結果取得
 			rs = stmt.executeQuery();
-			
+
 			//帰ってきた値の数をカウント
-			while (rs.next()) 
+			while (rs.next())
 				i++;
 			//返り値を格納する配列を用意
-			int[] ids =new int [i+1];
-			
+			int[] ids = new int[i + 1];
+
 			//配列に格納
 			while (rs.next()) {
 				ids[j] = rs.getInt("id");
 				j++;
 			}
-			
+
 			//値を返す
-			return ids;			
+			return ids;
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//error原因の調査用コマンド
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getCause());
+			//			System.out.println(e.getMessage());
+			//			System.out.println(e.getCause());
 		} finally {
 			try {
 				if (con != null) {
@@ -155,25 +154,59 @@ public class AccessDB {
 				System.out.println("データベースへのアクセスでエラーが発生しました。");
 			}
 		}
-		int[] none=new int[2];
+		int[] none = new int[2];
 		return none;
-		
+
 	}
-	
-	
+
 	//名前とIDを入力すると試験結果を表示
 	public String getResultByNameAndId(String _userName, int _id) {
-		
-		
-		
-		
-		
-		
-		
-		
+
 		return "未実装";
 	}
-	
+
+	//教科名を入れると対応する数字を出力
+	public int getSubjectNumBySub_name(String _subName) {
+
+		return 0;
+	}
+
+	//教科一覧をIDとともに出力
+	public void getAllSubjectNameAndId() {
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement("SELECT * FROM subjects");
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				int sub_id = rs.getInt("sub_id");
+				String sub_name = rs.getString("sub_name");
+
+				System.out.println(sub_id + ":" + sub_name);
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+
+	}
+
 	/*
 	//名前を入力して試験結果を入力
 	public float InsertResultByName(String _userName) {

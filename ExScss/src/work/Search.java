@@ -8,7 +8,7 @@ import accessDB.AccessDB;
 public class Search {
 
 	public void searchResult() {
-		int id,checkId;
+		int id=0,checkId,sub_id,result_point=0;
 		
 		AccessDB accessdb = new AccessDB();
 
@@ -25,7 +25,7 @@ public class Search {
 		
 		//名前が重複していた場合の処理
 		if(ids.length>2) {
-			System.out.println("あなたのIDを入力してください:");
+			System.out.print("あなたのIDを入力してください:");
 			checkId=scanner.nextInt();
 			if(Arrays.asList(ids).contains(checkId)) {
 				id=checkId;
@@ -36,7 +36,17 @@ public class Search {
 			id=ids[0];
 		}
 		
-		//Idから結果取得
+		
+		//教科一覧を取得,表示
+		System.out.print("\n受験結果を知りたい教科に対応する数字を入力してください:");
+		accessdb.getAllSubjectNameAndId();
+		
+		sub_id=scanner.nextInt();
+		
+		//受験者ID,教科IDから結果取得
+		result_point=accessdb.getResultByUserIdAndSubId(id, sub_id);
+		
+		
 		
 		scanner.close();
 	}

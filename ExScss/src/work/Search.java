@@ -33,6 +33,7 @@ public class Search {
 				id=checkId;
 			}else {
 				System.out.println("IDが間違っています。");
+				System.exit(0);
 			}
 		}else {
 			id=ids.get(0);
@@ -45,7 +46,7 @@ public class Search {
 		System.out.println("\n受験結果を知りたい教科に対応する数字を入力してください。");
 		accessdb.getAllSubjectNameAndId();
 		
-		System.out.print("教科の番号：");
+		System.out.print("\n教科の番号：");
 		sub_id=scanner.nextInt();
 		sub_name=accessdb.getSubjectNameBySub_Id(sub_id);
 		

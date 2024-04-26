@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AccessDB {
 
@@ -109,9 +110,10 @@ public class AccessDB {
 	 * @param _userName //ユーザー名
 	 * @return result　//試験結果
 	 */
-	public int[] getIdDataByName(String _userName) {
+	public ArrayList<Integer> getIdDataByName(String _userName) {
 		String table = "examinee";
 		int i = 0, j = 0;
+		ArrayList<Integer> ids=new ArrayList();
 		//int[] result=new int[20];
 
 		try {
@@ -124,16 +126,10 @@ public class AccessDB {
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
-			//帰ってきた値の数をカウント
-			while (rs.next())
-				i++;
-			//返り値を格納する配列を用意
-			int[] ids = new int[i + 1];
 
 			//配列に格納
 			while (rs.next()) {
-				ids[j] = rs.getInt("id");
-				j++;
+				ids.add(rs.getInt("id"));
 			}
 
 			//値を返す
@@ -154,8 +150,8 @@ public class AccessDB {
 				System.out.println("データベースへのアクセスでエラーが発生しました。");
 			}
 		}
-		int[] none = new int[2];
-		return none;
+//		int[] none = new int[2];
+		return ids;
 
 	}
 
@@ -173,7 +169,7 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-			stmt = con.prepareStatement("SELECT * FROM results WHERE sub_id=" + _sub_id+" AND examinee_id="+ _user_id);
+			stmt = con.prepareStatement("SELECT result_point FROM results WHERE (sub_id=" + _sub_id+" AND examinee_id="+ _user_id+")");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 

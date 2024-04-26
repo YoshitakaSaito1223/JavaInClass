@@ -2,8 +2,8 @@ package Main;
 
 import java.util.Scanner;
 
-import accessDB.AccessDB;
 import work.Registration;
+import work.Search;
 
 public class Exmain {
 	public static void main(String[] args) {
@@ -19,11 +19,12 @@ public class Exmain {
 		Scanner scanner = new Scanner(System.in);
 
 		//DB接続チェック用
-		AccessDB accessdb = new AccessDB();
+		//AccessDB accessdb = new AccessDB();
 
-//		accessdb.connectDB();
+		//accessdb.connectDB();
 
 		Registration rgstr = new Registration();
+		Search search = new Search();
 		try {
 			int pgNum = scanner.nextInt();
 
@@ -36,7 +37,7 @@ public class Exmain {
 				System.out.println("未実装です。");
 				break;
 			case 3:
-				System.out.println("未実装です。");
+				search.searchResult();
 				break;
 			default:
 				System.out.println("不正な入力です。機能に対応する番号を入力してください。");

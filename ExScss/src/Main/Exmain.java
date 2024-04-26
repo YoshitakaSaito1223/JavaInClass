@@ -26,6 +26,7 @@ public class Exmain {
 		Registration rgstr = new Registration();
 		Search search = new Search();
 		try {
+			System.out.print("機能番号：");
 			int pgNum = scanner.nextInt();
 
 			//機能判定

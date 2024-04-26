@@ -112,7 +112,6 @@ public class AccessDB {
 	 */
 	public ArrayList<Integer> getIdDataByName(String _userName) {
 		String table = "examinee";
-		int i = 0, j = 0;
 		ArrayList<Integer> ids=new ArrayList();
 		//int[] result=new int[20];
 
@@ -125,8 +124,7 @@ public class AccessDB {
 			stmt = con.prepareStatement("SELECT id FROM " + table + " WHERE name='" + _userName+"'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
-
-
+			
 			//配列に格納
 			while (rs.next()) {
 				ids.add(rs.getInt("id"));

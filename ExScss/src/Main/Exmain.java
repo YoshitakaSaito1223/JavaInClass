@@ -12,8 +12,8 @@ public class Exmain {
 		System.out.println("---受験結果管理プログラム---");
 		System.out.println("\s使用したい機能の番号を以下から選んでください。\n"
 				+ "1.受験登録機能 : 氏名を入力すると受験番号を発行します。\n"
-				+ "2.テスト結果登録機能 ： 名前、もしくは受験番号を入力すると試験結果を出力します。\n"
-				+ "3.受験結果確認機能 : 名前、もしくは受験番号を入力すると、合否が出力されます。\n");
+				+ "2.テスト結果登録機能 ： 名前、もしくは受験番号を入力すると試験結果を登録します。\n"
+				+ "3.受験結果確認機能 : 名前(必要に応じて受験番号)を入力すると、合否が出力されます。\n");
 
 		//入力受付
 		Scanner scanner = new Scanner(System.in);
@@ -28,7 +28,7 @@ public class Exmain {
 		try {
 			System.out.print("機能番号：");
 			int pgNum = scanner.nextInt();
-
+			System.out.println();
 			//機能判定
 			switch (pgNum) {
 			case 1:

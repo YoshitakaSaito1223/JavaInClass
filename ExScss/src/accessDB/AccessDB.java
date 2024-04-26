@@ -120,7 +120,7 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// ひとつ前の番号取得
-			stmt = con.prepareStatement("SELECT id FROM " + table + " WHERE name=" + _userName);
+			stmt = con.prepareStatement("SELECT id FROM " + table + " WHERE name='" + _userName+"'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
@@ -143,8 +143,8 @@ public class AccessDB {
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//error原因の調査用コマンド
-			//			System.out.println(e.getMessage());
-			//			System.out.println(e.getCause());
+			System.out.println(e.getMessage());
+			System.out.println(e.getCause());
 		} finally {
 			try {
 				if (con != null) {

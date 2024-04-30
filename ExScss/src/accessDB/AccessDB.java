@@ -82,7 +82,8 @@ public class AccessDB {
 			}
 			// 登録
 			stmt = con.prepareStatement(
-					"INSERT INTO " + table + " (examinee_id,examinee_name) VALUES('" + genId + "','" + _userName + "')");
+					"INSERT INTO " + table + " (examinee_id,examinee_name) VALUES('" + genId + "','" + _userName
+							+ "')");
 			// 実行結果取得
 			rowAffected = stmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
@@ -112,7 +113,7 @@ public class AccessDB {
 	 */
 	public ArrayList<Integer> getIdDataByName(String _userName) {
 		String table = "examinee";
-		ArrayList<Integer> ids=new ArrayList();
+		ArrayList<Integer> ids = new ArrayList();
 		//int[] result=new int[20];
 
 		try {
@@ -121,10 +122,11 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// ひとつ前の番号取得
-			stmt = con.prepareStatement("SELECT examinee_id FROM " + table + " WHERE examinee_name='" + _userName+"'");
+			stmt = con
+					.prepareStatement("SELECT examinee_id FROM " + table + " WHERE examinee_name='" + _userName + "'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
-			
+
 			//配列に格納
 			while (rs.next()) {
 				ids.add(rs.getInt("examinee_id"));
@@ -148,7 +150,7 @@ public class AccessDB {
 				System.out.println("データベースへのアクセスでエラーが発生しました。");
 			}
 		}
-//		int[] none = new int[2];
+		//		int[] none = new int[2];
 		return ids;
 
 	}
@@ -160,14 +162,15 @@ public class AccessDB {
 	 * @return result_point
 	 */
 	public int getResultByUserIdAndSubId(int _user_id, int _sub_id) {
-		int result_point=0;
+		int result_point = 0;
 		try {
 			// JDBCドライバのロード
 			Class.forName(DRIVER);
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-			stmt = con.prepareStatement("SELECT result_point FROM results WHERE (sub_id=" + _sub_id+" AND examinee_id="+ _user_id+")");
+			stmt = con.prepareStatement(
+					"SELECT result_point FROM results WHERE (sub_id=" + _sub_id + " AND examinee_id=" + _user_id + ")");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
@@ -232,6 +235,44 @@ public class AccessDB {
 	}
 
 	/**
+	 * 教科名を入れると対応する教科IDを出力
+	 * @param _sub_name
+	 * @return
+	 */
+	public int getSubjectIDBySub_Name(String _sub_name) {
+		int sub_id = 9999;
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_name=" + _sub_name);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				sub_id = rs.getInt("sub_id");
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+		return sub_id;
+	}
+
+	/**
 	 * 教科一覧をIDとともに出力
 	 */
 	public void getAllSubjectNameAndId() {
@@ -249,7 +290,7 @@ public class AccessDB {
 				int sub_id = rs.getInt("sub_id");
 				String sub_name = rs.getString("sub_name");
 
-				System.out.println(sub_id + ":" + sub_name);
+				System.out.print(sub_id + ":" + sub_name+"\t");
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -268,14 +309,13 @@ public class AccessDB {
 		}
 
 	}
-	
-	
+
 	/**
 	 * 管理者ログイン機能
 	 * @param admin_id
 	 * @param admin_password
 	 */
-	public String Login(int admin_id,String admin_password) {
+	public String Login(int admin_id, String admin_password) {
 		try {
 			// JDBCドライバのロード
 			Class.forName(DRIVER);
@@ -286,11 +326,6 @@ public class AccessDB {
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
-			if (rs.next()) {
-				if(rs.getString(3).equals(admin_password)) 
-					return rs.getString(2);
-				
-			}
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
@@ -306,22 +341,47 @@ public class AccessDB {
 				System.out.println("データベースへのアクセスでエラーが発生しました。");
 			}
 		}
-		
-		
+
 		return "error";
 	}
 
-	/*
-	//名前を入力して試験結果を入力
-	public float InsertResultByName(String _userName) {
-	
+	/**
+	 * IDを入力して試験結果を登録
+	 * @param _examinee_id
+	 * @param _sub_id
+	 * @param _result_point
+	 * @param _registered_by
+	 */
+	public void InsertResultByName(int _examinee_id, int _sub_id, int _result_point, String _registered_by) {
+		int rowAffected=0;
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+			// 登録
+			stmt = con.prepareStatement("INSERT INTO results(examinee_id,sub_id,result_point,registered_by) "
+					+ "VALUES(" + _examinee_id + "," + _sub_id + ","+_result_point +",'"+_registered_by+"')");
+			// 実行結果取得
+			rowAffected = stmt.executeUpdate();
+			
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			//error原因の調査用コマンド
+			//			System.out.println(e.getMessage());
+			//			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
 	}
-	
-	//IDを入力して試験結果を入力
-	public float InsertResultById(int _id) {
-	
-	}
-	
-	
-	*/
+
 }

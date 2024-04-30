@@ -5,9 +5,10 @@ import java.util.Scanner;
 import accessDB.AccessDB;
 
 public class Login {
+	static String admin_name;
 	
 	public void adLogin() {
-		String admin_name,admin_password;
+		String admin_password;
 		int admin_id=0;
 		
 		//各種インスタンス生成
@@ -19,9 +20,9 @@ public class Login {
 		
 		//入力受付
 		System.out.print("ID:");
-		admin_id=scanner.nextInt();
+		admin_id=Integer.parseInt(scanner.nextLine());
 		System.out.print("Password:");
-		admin_password=scanner.next();
+		admin_password=scanner.nextLine();
 		System.out.println();
 
 		//DBアクセス
@@ -33,8 +34,7 @@ public class Login {
 		}else {
 			System.out.println("ようこそ "+admin_name+" さん！");
 		}
-		
-		scanner.close();
+	
 		
 		
 	}

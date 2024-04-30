@@ -5,7 +5,7 @@ import java.util.Scanner;
 import accessDB.AccessDB;
 
 public class Login {
-	static String admin_name;
+	public static String admin_name;
 	
 	public void adLogin() {
 		String admin_password;

@@ -2,6 +2,7 @@ package Main;
 
 import java.util.Scanner;
 
+import work.Login;
 import work.Registration;
 import work.Search;
 
@@ -13,7 +14,8 @@ public class Exmain {
 		System.out.println("\s使用したい機能の番号を以下から選んでください。\n"
 				+ "1.受験登録機能 : 氏名を入力すると受験番号を発行します。\n"
 				+ "2.テスト結果登録機能 ： 名前、もしくは受験番号を入力すると試験結果を登録します。\n"
-				+ "3.受験結果確認機能 : 名前(必要に応じて受験番号)を入力すると、合否が出力されます。\n");
+				+ "3.受験結果確認機能 : 名前(必要に応じて受験番号)を入力すると、合否が出力されます。\n"
+				+ "4.ログイン機能 : 管理者用ログイン機能\n");
 
 		//入力受付
 		Scanner scanner = new Scanner(System.in);
@@ -25,6 +27,8 @@ public class Exmain {
 
 		Registration rgstr = new Registration();
 		Search search = new Search();
+		Login login = new Login();
+		
 		try {
 			System.out.print("機能番号：");
 			int pgNum = scanner.nextInt();
@@ -39,6 +43,9 @@ public class Exmain {
 				break;
 			case 3:
 				search.searchResult();
+				break;
+			case 4:
+				login.adLogin();
 				break;
 			default:
 				System.out.println("不正な入力です。機能に対応する番号を入力してください。");

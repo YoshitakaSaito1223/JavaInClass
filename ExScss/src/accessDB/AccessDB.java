@@ -154,6 +154,52 @@ public class AccessDB {
 		return ids;
 
 	}
+	
+	
+	public String getNameByID(int _examinee_id) {
+		String table = "examinee",examinee_name="ななし";
+		
+
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+			// ひとつ前の番号取得
+			stmt = con
+					.prepareStatement("SELECT examinee_name FROM " + table + " WHERE examinee_id="+_examinee_id);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			//配列に格納
+			if (rs.next()) {
+				examinee_name=rs.getString("examinee_name");
+			}
+
+			//値を返す
+			return examinee_name;
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			//error原因の調査用コマンド
+			System.out.println(e.getMessage());
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+		//		int[] none = new int[2];
+		return "error";
+
+	}
+	
+	
 
 	/**
 	 * 受験者IDと教科IDを入力すると試験結果を表示
@@ -247,7 +293,7 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_name=" + _sub_name);
+			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_name='" + _sub_name+"'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
@@ -322,9 +368,14 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-			stmt = con.prepareStatement("SELECT * FROM admin WHERE admin_id=" + admin_id);
+			stmt = con.prepareStatement("SELECT admin_name FROM admin WHERE admin_id=" +
+						admin_id +" AND admin_password='"+admin_password+"'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getString("admin_name");
+			}
 
 
 		} catch (ClassNotFoundException e) {

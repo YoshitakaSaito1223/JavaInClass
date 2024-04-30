@@ -36,20 +36,4 @@ public class Registration {
 		
 	}
 	
-	public void registerNumber(int _examinee_id,String _name,String _sub_name) {
-		
-		
-	}
-
-	
-	public void registerNumber(int _examinee_id,String _name,int _sub_id) {
-		
-		
-	}
-	
-	public void returnNumber(String _name) {
-		
-	}
-	
-	
 }

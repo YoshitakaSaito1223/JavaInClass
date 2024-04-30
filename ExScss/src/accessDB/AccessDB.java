@@ -360,6 +360,7 @@ public class AccessDB {
 	 * 管理者ログイン機能
 	 * @param admin_id
 	 * @param admin_password
+	 * @return admin_name
 	 */
 	public String Login(int admin_id, String admin_password) {
 		try {

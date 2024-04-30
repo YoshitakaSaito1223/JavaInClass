@@ -78,11 +78,11 @@ public class AccessDB {
 			rs = stmt.executeQuery();
 			//数値を代入
 			if (rs.next()) {
-				genId = rs.getInt("id") + 1;
+				genId = rs.getInt("examinee_id") + 1;
 			}
 			// 登録
 			stmt = con.prepareStatement(
-					"INSERT INTO " + table + " (id,name) VALUES('" + genId + "','" + _userName + "')");
+					"INSERT INTO " + table + " (examinee_id,examinee_name) VALUES('" + genId + "','" + _userName + "')");
 			// 実行結果取得
 			rowAffected = stmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
@@ -121,13 +121,13 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// ひとつ前の番号取得
-			stmt = con.prepareStatement("SELECT id FROM " + table + " WHERE name='" + _userName+"'");
+			stmt = con.prepareStatement("SELECT examinee_id FROM " + table + " WHERE examinee_name='" + _userName+"'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 			
 			//配列に格納
 			while (rs.next()) {
-				ids.add(rs.getInt("id"));
+				ids.add(rs.getInt("examinee_id"));
 			}
 
 			//値を返す

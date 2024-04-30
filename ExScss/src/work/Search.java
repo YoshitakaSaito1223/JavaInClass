@@ -46,7 +46,7 @@ public class Search {
 		System.out.println("\n受験結果を知りたい教科に対応する数字を入力してください。");
 		accessdb.getAllSubjectNameAndId();
 		
-		System.out.print("\n教科の番号：");
+		System.out.print("\n\n教科の番号：");
 		sub_id=scanner.nextInt();
 		sub_name=accessdb.getSubjectNameBySub_Id(sub_id);
 		
@@ -54,8 +54,7 @@ public class Search {
 		result_point=accessdb.getResultByUserIdAndSubId(id, sub_id);
 		System.out.println("\n"+_name+"さんの"+sub_name+"の得点："+result_point);
 		
-		
-		scanner.close();
+	
 	}
 
 }

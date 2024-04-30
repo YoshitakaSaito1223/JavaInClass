@@ -34,12 +34,17 @@ public class Registration {
 		System.out.println(_name+"さんのIDは"+userId+"です。");
 		
 		
-		scanner.close();
 	}
 	
-	private int registerNumber(String _name) {
+	public void registerNumber(int _examinee_id,String _name,String _sub_name) {
 		
-		return 0;
+		
+	}
+
+	
+	public void registerNumber(int _examinee_id,String _name,int _sub_id) {
+		
+		
 	}
 	
 	public void returnNumber(String _name) {

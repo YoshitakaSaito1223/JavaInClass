@@ -3,6 +3,7 @@ package Main;
 import java.util.Scanner;
 
 import work.Admin;
+import work.Examination;
 import work.Login;
 import work.Registration;
 import work.Search;
@@ -31,6 +32,7 @@ public class Exmain {
 		Search search = new Search();
 		Login login = new Login();
 		Admin admin =new Admin();
+		Examination exam=new Examination();
 
 		try {
 			System.out.print("機能番号：");
@@ -42,7 +44,7 @@ public class Exmain {
 				rgstr.inputName();
 				break;
 			case 2:
-				System.out.println("未実装です。");
+				exam.tryExam();
 				break;
 			case 3:
 				search.searchResult();

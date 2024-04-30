@@ -36,8 +36,8 @@ public class AccessDB {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				String id = rs.getString("id");
-				String name = rs.getString("name");
+				String id = rs.getString("examinee_id");
+				String name = rs.getString("examinee_name");
 
 				System.out.println(id + ":" + name);
 			}
@@ -267,6 +267,48 @@ public class AccessDB {
 			}
 		}
 
+	}
+	
+	
+	/**
+	 * 管理者ログイン機能
+	 * @param admin_id
+	 * @param admin_password
+	 */
+	public String Login(int admin_id,String admin_password) {
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement("SELECT * FROM admin WHERE admin_id=" + admin_id);
+			// 実行結果取得
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				if(rs.getString(3).equals(admin_password)) 
+					return rs.getString(2);
+				
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+		
+		
+		return "error";
 	}
 
 	/*

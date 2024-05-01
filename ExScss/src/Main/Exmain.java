@@ -21,11 +21,9 @@ public class Exmain {
 
 		//入力受付
 		Scanner scanner = new Scanner(System.in);
-		Scanner scanner2 =new Scanner(System.in);
 
 		//DB接続チェック用
 		//AccessDB accessdb = new AccessDB();
-
 		//accessdb.connectDB();
 
 		Registration rgstr = new Registration();

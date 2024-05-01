@@ -5,7 +5,7 @@ import java.util.Scanner;
 import accessDB.AccessDB;
 
 public class Login {
-	public static String admin_name;
+	static String admin_name;
 	
 	public void adLogin() {
 		String admin_password;
@@ -34,8 +34,10 @@ public class Login {
 		}else {
 			System.out.println("ようこそ "+admin_name+" さん！");
 		}
+		
+	}
 	
-		
-		
+	public String getName() {
+		return admin_name;
 	}
 }

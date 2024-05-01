@@ -155,7 +155,11 @@ public class AccessDB {
 
 	}
 	
-	
+	/**
+	 * IDを入れると名前を出力
+	 * @param _examinee_id
+	 * @return examinee_name
+	 */
 	public String getNameByID(int _examinee_id) {
 		String table = "examinee",examinee_name="ななし";
 		
@@ -283,7 +287,7 @@ public class AccessDB {
 	/**
 	 * 教科名を入れると対応する教科IDを出力
 	 * @param _sub_name
-	 * @return
+	 * @return sub_id
 	 */
 	public int getSubjectIDBySub_Name(String _sub_name) {
 		int sub_id = 9999;

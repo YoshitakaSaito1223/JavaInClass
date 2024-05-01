@@ -13,7 +13,7 @@ public class Admin {
 	AccessDB accessdb = new AccessDB();
 	Login login = new Login();
 
-	String admin_name = login.admin_name;
+	String admin_name = login.getName();
 
 	public void SelectFunction() {
 

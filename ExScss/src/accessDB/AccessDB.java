@@ -435,7 +435,6 @@ public class AccessDB {
 		}
 	}
 
-
 	/**
 	 * 編集したいセルを選択し、UPDATE
 	 * @param _table
@@ -443,7 +442,7 @@ public class AccessDB {
 	 * @param _examinee_id
 	 * @param _updateData
 	 */
-	public void UpdateResults(String _table, String _cell, String _examinee_id, String _updateData) {
+	public void UpdateResults(String _table, String _cell, int _examinee_id, String _updateData) {
 		int AllowEffects = 0;
 
 		try {
@@ -476,7 +475,49 @@ public class AccessDB {
 		}
 	}
 
-	
+	/**
+	 * 編集したいセルを選択し、UPDATE(sub_id追加)
+	 * @param _table
+	 * @param _cell
+	 * @param _examinee_id
+	 * @param _sub_id
+	 * @param _updateData
+	 */
+	public void UpdateResults(String _table, String _cell, int _examinee_id, int _sub_id, String _updateData) {
+		int AllowEffects = 0;
+
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement(
+					"UPTATE " + _table + " SET " + _cell + "=" + _updateData +
+							" WHERE examinee_id=" + _examinee_id + " AND sub_id=" + _sub_id);
+			// 実行結果取得
+			AllowEffects = stmt.executeUpdate();
+
+			System.out.println("更新が完了しました。");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			//errorチェック用
+			//System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+
+			}
+		}
+	}
+
 	/**
 	 * 削除したいレコードを選択し、DELETE
 	 * @param _table

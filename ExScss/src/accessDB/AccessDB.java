@@ -483,7 +483,7 @@ public class AccessDB {
 	 * @param _sub_id
 	 * @param _updateData
 	 */
-	public void UpdateResults(String _table, String _cell, int _examinee_id, int _sub_id, String _updateData) {
+	public void UpdateResults(String _table, String _cell, int _examinee_id, int _sub_id, int _updateData) {
 		int AllowEffects = 0;
 
 		try {
@@ -498,7 +498,7 @@ public class AccessDB {
 			// 実行結果取得
 			AllowEffects = stmt.executeUpdate();
 
-			System.out.println("更新が完了しました。");
+			System.out.println("\n変更が完了しました。");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");

@@ -154,15 +154,14 @@ public class AccessDB {
 		return ids;
 
 	}
-	
+
 	/**
 	 * IDを入れると名前を出力
 	 * @param _examinee_id
 	 * @return examinee_name
 	 */
 	public String getNameByID(int _examinee_id) {
-		String table = "examinee",examinee_name="ななし";
-		
+		String table = "examinee", examinee_name = "ななし";
 
 		try {
 			// JDBCドライバのロード
@@ -171,13 +170,13 @@ public class AccessDB {
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// ひとつ前の番号取得
 			stmt = con
-					.prepareStatement("SELECT examinee_name FROM " + table + " WHERE examinee_id="+_examinee_id);
+					.prepareStatement("SELECT examinee_name FROM " + table + " WHERE examinee_id=" + _examinee_id);
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
 			//配列に格納
 			if (rs.next()) {
-				examinee_name=rs.getString("examinee_name");
+				examinee_name = rs.getString("examinee_name");
 			}
 
 			//値を返す
@@ -202,8 +201,6 @@ public class AccessDB {
 		return "error";
 
 	}
-	
-	
 
 	/**
 	 * 受験者IDと教科IDを入力すると試験結果を表示
@@ -297,7 +294,7 @@ public class AccessDB {
 			// データベース接続
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
-			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_name='" + _sub_name+"'");
+			stmt = con.prepareStatement("SELECT * FROM subjects WHERE sub_name='" + _sub_name + "'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
 
@@ -340,7 +337,7 @@ public class AccessDB {
 				int sub_id = rs.getInt("sub_id");
 				String sub_name = rs.getString("sub_name");
 
-				System.out.print(sub_id + ":" + sub_name+"\t");
+				System.out.print(sub_id + ":" + sub_name + "\t");
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -374,14 +371,13 @@ public class AccessDB {
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
 			stmt = con.prepareStatement("SELECT admin_name FROM admin WHERE admin_id=" +
-						admin_id +" AND admin_password='"+admin_password+"'");
+					admin_id + " AND admin_password='" + admin_password + "'");
 			// 実行結果取得
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 				return rs.getString("admin_name");
 			}
-
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
@@ -409,7 +405,7 @@ public class AccessDB {
 	 * @param _registered_by
 	 */
 	public void InsertResultByName(int _examinee_id, int _sub_id, int _result_point, String _registered_by) {
-		int rowAffected=0;
+		int rowAffected = 0;
 		try {
 			// JDBCドライバのロード
 			Class.forName(DRIVER);
@@ -417,11 +413,10 @@ public class AccessDB {
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 			// 登録
 			stmt = con.prepareStatement("INSERT INTO results(examinee_id,sub_id,result_point,registered_by) "
-					+ "VALUES(" + _examinee_id + "," + _sub_id + ","+_result_point +",'"+_registered_by+"')");
+					+ "VALUES(" + _examinee_id + "," + _sub_id + "," + _result_point + ",'" + _registered_by + "')");
 			// 実行結果取得
 			rowAffected = stmt.executeUpdate();
-			
-			
+
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードでエラーが発生しました");
 		} catch (SQLException e) {
@@ -429,6 +424,85 @@ public class AccessDB {
 			//error原因の調査用コマンド
 			//			System.out.println(e.getMessage());
 			//			System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+	}
+
+
+	/**
+	 * 編集したいセルを選択し、UPDATE
+	 * @param _table
+	 * @param _cell
+	 * @param _examinee_id
+	 * @param _updateData
+	 */
+	public void UpdateResults(String _table, String _cell, String _examinee_id, String _updateData) {
+		int AllowEffects = 0;
+
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement(
+					"UPTATE " + _table + " SET " + _cell + "=" + _updateData + " WHERE examinee_id=" + _examinee_id);
+			// 実行結果取得
+			AllowEffects = stmt.executeUpdate();
+
+			System.out.println("更新が完了しました。");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			//errorチェック用
+			//System.out.println(e.getCause());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("データベースへのアクセスでエラーが発生しました。");
+			}
+		}
+	}
+
+	
+	/**
+	 * 削除したいレコードを選択し、DELETE
+	 * @param _table
+	 * @param _examinee_id
+	 */
+	public void DeleteData(String _table, String _examinee_id) {
+		int AllowEffects = 0;
+
+		try {
+			// JDBCドライバのロード
+			Class.forName(DRIVER);
+			// データベース接続
+			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+
+			stmt = con.prepareStatement("DELETE FROM " + _table + " WHERE examinee_id =" + _examinee_id);
+			// 実行結果取得
+			AllowEffects = stmt.executeUpdate();
+
+			System.out.println("削除が完了しました。");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBCドライバのロードでエラーが発生しました");
+		} catch (SQLException e) {
+			System.out.println("データベースへのアクセスでエラーが発生しました。");
+			//errorチェック用
+			//System.out.println(e.getCause());
 		} finally {
 			try {
 				if (con != null) {

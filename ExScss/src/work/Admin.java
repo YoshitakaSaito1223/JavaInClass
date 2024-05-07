@@ -37,6 +37,7 @@ public class Admin {
 				break;
 			case "3":
 				ChooseUpdateOrDelete();
+				break;
 			case "exit":
 				System.out.println("\n終了します。");
 				System.exit(0);
@@ -114,17 +115,30 @@ public class Admin {
 		System.out.println("変更したい登録情報を、以下から選んでください。");
 		System.out.println("0:受験結果 \t 1:受験者氏名");
 		System.out.print("選択：");
-		tmp = sc.nextLine();
+		tmp = (String) sc.nextLine();
 
 		//操作するテーブルの設定
-		switch (tmp) {
-		case "0":
-		case "受験結果":
+		if(tmp.equals("0") || tmp.equals("受験結果")) {
 			table = new String[] { "results", "受験結果" };
-		case "1":
-		case "受験者氏名":
+		}else if (tmp.equals("1") || tmp.equals("受験者氏名")) {
 			table = new String[] { "examinee", "受験者氏名" };
+		}else {
+			System.out.println("入力が間違っています。");
+			System.exit(0);
 		}
+		
+		//なぜかうまくいかない
+//		switch (tmp) {
+//		case "0":
+//		case "受験結果":
+//			table = new String[] { "results", "受験結果" };
+//		case "1":
+//		case "受験者氏名":
+//			table = new String[] { "examinee", "受験者氏名" };
+//		default:
+//			System.out.println("入力が間違っています。");
+//			System.exit(0);
+//		}
 
 		System.out.println("\n登録情報の変更、もしくは削除するかを選択してください。");
 		System.out.println("0:変更 \t 1:削除");
@@ -158,7 +172,7 @@ public class Admin {
 		Matcher mc = pt.matcher(examinee);
 
 		if (mc.find()) {
-			examinee_name = examinee;
+			examinee_name = db.getNameByID(Integer.parseInt(examinee));
 			examinee_id = Integer.parseInt(examinee);
 		} else {
 			ArrayList<Integer> ids = db.getIdDataByName(examinee);
@@ -179,7 +193,7 @@ public class Admin {
 		}
 
 		//変更が教科の得点の場合
-		if (!(_table[1].equals("受験結果"))) {
+		if (_table[1].equals("受験結果")) {
 			System.out.println("変更したい教科を入力してください。");
 			db.getAllSubjectNameAndId();
 			System.out.print("\n教科：");
@@ -192,33 +206,33 @@ public class Admin {
 				sub_name = sub;
 				sub_id = db.getSubjectIDBySub_Name(sub);
 			}
-			
+
 			//変更後の得点入力
 			System.out.print("\n変更後の得点を入力してください:");
-			updateData=sc.nextLine();
+			updateData = sc.nextLine();
 
 			//最終確認
 			System.out.println("\n変更は下記の通りでよろしいですか？(y/n)");
-			System.out.println("変更前：");
-			System.out.println("変更後：");
+			System.out.println("変更前：\t氏名:"+examinee_name+" , 教科："+sub_name+" , 変更前："+db.getResultByUserIdAndSubId(examinee_id, sub_id));
+			System.out.println("変更後：\t氏名："+examinee_name+" , 教科："+sub_name+" , 変更後："+updateData);
 			System.out.print("y or n :");
 			permition = sc.nextLine();
 			if (permition.equals("y") || permition.equals("Y"))
-				db.UpdateResults(_table[0], cell, examinee_id, sub_id, Integer.parseInt(updateData));
+				db.updateData(_table[0], "result_point", examinee_id, sub_id, Integer.parseInt(updateData));
 			else
 				System.out.println("\n変更を取り消しました。");
-		}else {
+		} else {
 			//変更が氏名の場合
 			System.out.print("\n変更後の氏名を入力してください:");
-			updateData=sc.nextLine();
+			updateData = sc.nextLine();
 			//最終確認
 			System.out.println("\n変更は下記の通りでよろしいですか？(y/n)");
-			System.out.println("変更前：");
-			System.out.println("変更後：");
+			System.out.println("変更前： "+examinee_id+":"+examinee_name);
+			System.out.println("変更後： "+examinee_id+":"+updateData);
 			System.out.print("y or n :");
 			permition = sc.nextLine();
 			if (permition.equals("y") || permition.equals("Y"))
-				db.UpdateResults(_table[0], cell, examinee_id, updateData);
+				db.updateData(_table[0], "examinee_name", examinee_id, updateData);
 			else
 				System.out.println("\n変更を取り消しました。");
 		}

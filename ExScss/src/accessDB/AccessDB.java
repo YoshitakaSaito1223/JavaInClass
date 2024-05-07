@@ -442,7 +442,7 @@ public class AccessDB {
 	 * @param _examinee_id
 	 * @param _updateData
 	 */
-	public void UpdateResults(String _table, String _cell, int _examinee_id, String _updateData) {
+	public void updateData(String _table, String _cell, int _examinee_id, String _updateData) {
 		int AllowEffects = 0;
 
 		try {
@@ -452,7 +452,7 @@ public class AccessDB {
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
 			stmt = con.prepareStatement(
-					"UPTATE " + _table + " SET " + _cell + "=" + _updateData + " WHERE examinee_id=" + _examinee_id);
+					"UPDATE " + _table + " SET " + _cell + "='" + _updateData + "' WHERE examinee_id=" + _examinee_id);
 			// 実行結果取得
 			AllowEffects = stmt.executeUpdate();
 
@@ -463,7 +463,8 @@ public class AccessDB {
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//errorチェック用
-			//System.out.println(e.getCause());
+			System.out.println(e.getCause());
+			System.out.println(e.getMessage());
 		} finally {
 			try {
 				if (con != null) {
@@ -483,7 +484,7 @@ public class AccessDB {
 	 * @param _sub_id
 	 * @param _updateData
 	 */
-	public void UpdateResults(String _table, String _cell, int _examinee_id, int _sub_id, int _updateData) {
+	public void updateData(String _table, String _cell, int _examinee_id, int _sub_id, int _updateData) {
 		int AllowEffects = 0;
 
 		try {
@@ -493,7 +494,7 @@ public class AccessDB {
 			con = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
 
 			stmt = con.prepareStatement(
-					"UPTATE " + _table + " SET " + _cell + "=" + _updateData +
+					"UPDATE " + _table + " SET " + _cell + "=" + _updateData +
 							" WHERE examinee_id=" + _examinee_id + " AND sub_id=" + _sub_id);
 			// 実行結果取得
 			AllowEffects = stmt.executeUpdate();
@@ -505,7 +506,8 @@ public class AccessDB {
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//errorチェック用
-			//System.out.println(e.getCause());
+			System.out.println(e.getCause());
+			System.out.println(e.getMessage());
 		} finally {
 			try {
 				if (con != null) {
@@ -543,7 +545,8 @@ public class AccessDB {
 		} catch (SQLException e) {
 			System.out.println("データベースへのアクセスでエラーが発生しました。");
 			//errorチェック用
-			//System.out.println(e.getCause());
+			System.out.println(e.getCause());
+			System.out.println(e.getMessage());
 		} finally {
 			try {
 				if (con != null) {
